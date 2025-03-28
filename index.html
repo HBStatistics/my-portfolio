@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HB Statistics Protfolio</title>
+    <style>
+        /* --- Basic Reset and General Styles --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f8f8;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* --- Navigation Bar --- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 15px 20px;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #007bff;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('hero-background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            overflow: hidden;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            max-width: 600px;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            animation: fadeIn 1s ease-out 0.5s forwards;
+        }
+
+        /* Animated text */
+        .hero .animated-text {
+            font-size: 2rem;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 0.15em solid orange;
+            animation: typing 3s steps(30, end), blink-caret 0.5s step-end infinite;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 1s forwards, typing 3s steps(30, end) 1s forwards, blink-caret 0.5s step-end 4s infinite;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes blink-caret {
+            from, to {
+                border-color: transparent;
+            }
+            50% {
+                border-color: orange;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* --- Sections --- */
+        section {
+            margin-bottom: 80px;
+            padding: 0 20px;
+        }
+
+        h2 {
+            font-size: 3rem;
+            margin-bottom: 40px;
+            color: #333;
+            text-align: center;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: #007bff;
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        /* --- Projects Grid --- */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 20px;
+        }
+
+        .project-item {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .project-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .project-item .project-info {
+            padding: 20px;
+        }
+
+        .project-item h3 {
+            margin-bottom: 10px;
+        }
+
+        /* --- Modal --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 800px;
+            position: relative;
+        }
+
+        .close-modal {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover,
+        .close-modal:focus {
+            color: #333;
+        }
+
+        #modal-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        #modal-link {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        #modal-link:hover {
+            background-color: #0056b3;
+        }
+
+        #modal-description {
+            margin-bottom: 20px;
+        }
+
+        /* --- About Section --- */
+        #about {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        #about img {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        #about p {
+            font-size: 1.1rem;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                height: 80vh;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            #about {
+                flex-direction: column;
+            }
+
+            #about img {
+                width: 200px;
+                height: 200px;
+            }
+        }
+
+        /* --- Odometer Clock Styles --- */
+        #custom-clock {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .clock-label {
+            font-size: 1.5rem;
+            margin-right: 10px;
+            color: #555;
+        }
+
+        .digit-container {
+            position: relative;
+            width: 40px;
+            height: 60px;
+            overflow: hidden;
+            margin: 0 5px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .digit {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .digit span {
+            width: 100%;
+            height: 60px;
+            line-height: 60px;
+            text-align: center;
+            font-size: 2rem;
+            background-color: #eee;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .digit span:last-child {
+            border-bottom: none;
+        }
+
+        .separator {
+            font-size: 2rem;
+            margin: 0 5px;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <div class="logo">HB Statistics</div>
+        <ul>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+    </nav>
+
+    <div class="hero">
+        <h1>HB Statistics</h1>
+        <div class="animated-text">I maked YouTube Statistics videos</div>
+    </div>
+
+    <main>
+        <div id="custom-clock">
+            <span class="clock-label">My Time:</span>
+            <div class="digit-container">
+                <div class="digit" id="hours-tens"></div>
+            </div>
+            <div class="digit-container">
+                <div class="digit" id="hours-ones"></div>
+            </div>
+            <span class="separator">:</span>
+            <div class="digit-container">
+                <div class="digit" id="minutes-tens"></div>
+            </div>
+            <div class="digit-container">
+                <div class="digit" id="minutes-ones"></div>
+            </div>
+            <span class="separator">:</span>
+            <div class="digit-container">
+                <div class="digit" id="seconds-tens"></div>
+            </div>
+            <div class="digit-container">
+                <div class="digit" id="seconds-ones"></div>
+            </div>
+        </div>
+        <section id="projects">
+            <h2>Projects</h2>
+            <div class="projects-grid">
+                <!-- Project items will be added here by JavaScript -->
+            </div>
+        </section>
+
+        <section id="about">
+            <h2>About Me</h2>
+            <img src="https://images.socialblade.com/256x,q75/https://yt3.ggpht.com/pe6pOjJLtyA3AyBp6ty0fdJ6S_XYAj0-DfzcDZwpaMqZk1WnqZ1L2kzIbnImP-Zh4qXBDnYQ_Q=s192-c-k-c0x00ffffff-no-rj" alt="Your Profile">
+            <p>I create in-depth YouTube statistics videos! Stay updated on the latest subscriber battles, rankings, and trends—subscribe to my channel now! 🚀📊 </p>
+        </section>
+    </main>
+
+    <!-- Project Modal -->
+    <div id="project-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 id="modal-title"></h3>
+            <img id="modal-image" src="" alt="">
+            <p id="modal-description"></p>
+            <a id="modal-link" href="" target="_blank">View Project</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 HB Statistics. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Project Data (Add your projects here!)
+        const projects = [
+            {
+                title: "Social Media Stats",
+                image: "project1.jpg", // Replace with your image
+                description: "The Official Website For Social Media Stats.",
+                link: "https://realherobrineyt.github.io/Social-Media-Stats/",
+            },
+            {
+                title: "custom-clock",
+                image: "project2.jpg", // Replace with your image
+                description: "A clock with an odometer.",
+                link: "https://github.com/RealHerobrineYT/custom-clock",
+            },
+            // Add more projects...
+        ];
+
+        // Get elements
+        const projectsGrid = document.querySelector(".projects-grid");
+        const modal = document.getElementById("project-modal");
+        const modalTitle = document.getElementById("modal-title");
+        const modalImage = document.getElementById("modal-image");
+        const modalDescription = document.getElementById("modal-description");
+        const modalLink = document.getElementById("modal-link");
+        const closeModal = document.querySelector(".close-modal");
+
+        // Function to create project items
+        function createProjectItem(project) {
+            const projectItem = document.createElement("div");
+            projectItem.classList.add("project-item");
+            projectItem.innerHTML = `
+                <img src="${project.image}" alt="${project.title}">
+                <div class="project-info">
+                    <h3>${project.title}</h3>
+                </div>
+            `;
+
+            projectItem.addEventListener("click", () => {
+                openModal(project);
+            });
+
+            return projectItem;
+        }
+
+        // Function to open the modal
+        function openModal(project) {
+            modalTitle.textContent = project.title;
+            modalImage.src = project.image;
+            modalImage.alt = project.title;
+            modalDescription.textContent = project.description;
+            modalLink.href = project.link;
+            modal.style.display = "block";
+        }
+
+        // Function to close the modal
+        function closeModalFunc() {
+            modal.style.display = "none";
+        }
+
+        // Add projects to the grid
+        projects.forEach((project) => {
+            const projectItem = createProjectItem(project);
+            projectsGrid.appendChild(projectItem);
+        });
+
+        // Event listener to close the modal
+        closeModal.addEventListener("click", closeModalFunc);
+        window.addEventListener("click", (event) => {
+            if (event.target == modal) {
+                closeModalFunc();
+            }
+        });
+
+        // --- Odometer Clock JavaScript ---
+        function updateOdometerClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+
+            // Format hours to 2 digits
+            const hoursTens = Math.floor(hours / 10);
+            const hoursOnes = hours % 10;
+
+            // Format minutes to 2 digits
+            const minutesTens = Math.floor(minutes / 10);
+            const minutesOnes = minutes % 10;
+
+            // Format seconds to 2 digits
+            const secondsTens = Math.floor(seconds / 10);
+            const secondsOnes = seconds % 10;
+
+            updateDigit('hours-tens', hoursTens);
+            updateDigit('hours-ones', hoursOnes);
+            updateDigit('minutes-tens', minutesTens);
+            updateDigit('minutes-ones', minutesOnes);
+            updateDigit('seconds-tens', secondsTens);
+            updateDigit('seconds-ones', secondsOnes);
+        }
+
+        function updateDigit(digitId, number) {
+            const digitElement = document.getElementById(digitId);
+            const currentTop = parseFloat(digitElement.style.top || 0);
+            const newTop = -number * 60; // 60px is the height of each digit slot
+
+            // Check if the digit needs to change
+            if (currentTop !== newTop) {
+                digitElement.style.top = `${newTop}px`;
+            }
+        }
+
+        function createDigitSlots(digitId) {
+            const digitElement = document.getElementById(digitId);
+            for (let i = 0; i <= 9; i++) {
+                const span = document.createElement('span');
+                span.textContent = i;
+                digitElement.appendChild(span);
+            }
+        }
+
+        // Create digit slots for each digit
+        createDigitSlots('hours-tens');
+        createDigitSlots('hours-ones');
+        createDigitSlots('minutes-tens');
+        createDigitSlots('minutes-ones');
+        createDigitSlots('seconds-tens');
+        createDigitSlots('seconds-ones');
+
+        // Update the clock every second
+        setInterval(updateOdometerClock, 1000);
+        updateOdometerClock(); // Initial call to display the time immediately
+    </script>
+</body>
+</html>
