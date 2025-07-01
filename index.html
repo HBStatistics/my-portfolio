@@ -1,585 +1,488 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HB Statistics Protfolio</title>
-    <style>
-        /* --- Basic Reset and General Styles --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HB Statistics Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=JetBrains+Mono&display=swap" rel="stylesheet" />
+<style>
+  /* Reset and base */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0; padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    color: #e0e0e0;
+    overflow-x: hidden;
+    transition: background 0.5s ease, color 0.5s ease;
+    cursor: none;
+  }
+  a {
+    color: #00ffe7;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  a:hover {
+    color: #00b3a1;
+  }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f8f8f8;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
+  /* Light mode */
+  body.light {
+    background: linear-gradient(135deg, #fefefe, #dcdcdc);
+    color: #222;
+  }
+  body.light a {
+    color: #006d71;
+  }
+  body.light a:hover {
+    color: #004b4d;
+  }
+  body.light header {
+    background: rgba(255 255 255 / 0.9);
+    color: #222;
+  }
+  body.light .project-card {
+    background: #ffffff;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    color: #222;
+  }
+  body.light .project-info p {
+    color: #555;
+  }
+  body.light .project-info a.button {
+    border-color: #006d71;
+    color: #006d71;
+  }
+  body.light .project-info a.button:hover {
+    background-color: #006d71;
+    color: white;
+  }
 
-        /* --- Navigation Bar --- */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 15px 20px;
-            z-index: 100;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+  /* Container & layout */
+  header {
+    position: fixed;
+    width: 100%;
+    top: 0; left: 0;
+    background: rgba(10,10,20,0.85);
+    backdrop-filter: saturate(180%) blur(10px);
+    z-index: 999;
+    padding: 1rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.5s ease, color 0.5s ease;
+  }
+  header .logo {
+    font-weight: 700;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    color: #00ffe7;
+    cursor: pointer;
+    user-select: none;
+  }
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+  }
+  nav ul li {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  nav ul li:hover {
+    color: #00b3a1;
+  }
 
-        nav .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #333;
-        }
+  main {
+    padding-top: 6rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding-bottom: 6rem;
+  }
 
-        nav ul {
-            list-style: none;
-            display: flex;
-        }
+  /* Hero section */
+  .hero {
+    text-align: center;
+    padding: 5rem 1rem 8rem;
+    position: relative;
+    z-index: 2;
+  }
+  .hero h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(90deg, #00ffe7, #00b3a1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    user-select: none;
+  }
+  .hero p {
+    font-size: 1.25rem;
+    font-weight: 300;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+    user-select: none;
+  }
 
-        nav ul li {
-            margin-left: 20px;
-        }
+  /* Projects grid */
+  .projects {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(320px,1fr));
+    gap: 2.5rem;
+    position: relative;
+    z-index: 2;
+  }
+  .project-card {
+    background: #0f1624;
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
+    box-shadow: 0 15px 30px rgba(0,255,231,0.15);
+    cursor: grab;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    will-change: transform;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .project-card:active {
+    cursor: grabbing;
+  }
+  .project-card:hover {
+    box-shadow: 0 30px 45px rgba(0,255,231,0.35);
+  }
+  .project-info h3 {
+    margin: 0 0 0.75rem;
+    font-weight: 600;
+    font-size: 1.6rem;
+    user-select: none;
+  }
+  .project-info p {
+    font-weight: 300;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: #a0a0a0;
+    user-select: none;
+  }
+  .project-info a.button {
+    margin-top: 1.5rem;
+    align-self: flex-start;
+    padding: 0.5rem 1.25rem;
+    border: 2px solid #00ffe7;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  .project-info a.button:hover {
+    background-color: #00ffe7;
+    color: #0f1624;
+  }
 
-        nav ul li a {
-            text-decoration: none;
-            color: #333;
-            transition: color 0.3s ease;
-        }
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 3rem 1rem;
+    font-weight: 300;
+    font-size: 0.9rem;
+    color: #444;
+    position: relative;
+    z-index: 2;
+  }
 
-        nav ul li a:hover {
-            color: #007bff;
-        }
+  /* Scroll animation */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1s forwards;
+  }
+  .fade-in.delay-1 {
+    animation-delay: 0.3s;
+  }
+  .fade-in.delay-2 {
+    animation-delay: 0.6s;
+  }
+  .fade-in.delay-3 {
+    animation-delay: 0.9s;
+  }
 
-        /* --- Hero Section --- */
-        .hero {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('hero-background.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 20px;
-            overflow: hidden;
-        }
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 
-        .hero h1 {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            opacity: 0;
-            animation: fadeIn 1s ease-out forwards;
-        }
+  /* Responsive typography */
+  @media (max-width: 600px) {
+    .hero h1 {
+      font-size: 2.5rem;
+    }
+    nav ul {
+      gap: 1.2rem;
+    }
+  }
 
-        .hero p {
-            font-size: 1.5rem;
-            max-width: 600px;
-            margin-bottom: 30px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            opacity: 0;
-            animation: fadeIn 1s ease-out 0.5s forwards;
-        }
+  /* Custom cursor */
+  #cursor {
+    position: fixed;
+    top: 0; left: 0;
+    width: 24px;
+    height: 24px;
+    background-color: rgba(0,255,231,0.7);
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s ease, height 0.2s ease, background-color 0.3s ease;
+    z-index: 10000;
+    mix-blend-mode: difference;
+    will-change: transform, width, height, background-color;
+  }
+  #cursor.hovered {
+    width: 48px;
+    height: 48px;
+    background-color: rgba(0,255,231,0.9);
+  }
 
-        /* Animated text */
-        .hero .animated-text {
-            font-size: 2rem;
-            overflow: hidden;
-            white-space: nowrap;
-            border-right: 0.15em solid orange;
-            animation: typing 3s steps(30, end), blink-caret 0.5s step-end infinite;
-            opacity: 0;
-            animation: fadeIn 1s ease-out 1s forwards, typing 3s steps(30, end) 1s forwards, blink-caret 0.5s step-end 4s infinite;
-        }
+  /* Toggle button */
+  #toggle-theme {
+    cursor: pointer;
+    background: none;
+    border: 2px solid #00ffe7;
+    border-radius: 24px;
+    padding: 0.3rem 1rem;
+    font-weight: 600;
+    color: #00ffe7;
+    font-family: 'Poppins', sans-serif;
+    user-select: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  #toggle-theme:hover {
+    background-color: #00ffe7;
+    color: #0f1624;
+  }
 
-        @keyframes typing {
-            from {
-                width: 0;
-            }
-            to {
-                width: 100%;
-            }
-        }
+  /* Particle canvas */
+  #particles-js {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+  }
 
-        @keyframes blink-caret {
-            from, to {
-                border-color: transparent;
-            }
-            50% {
-                border-color: orange;
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* --- Sections --- */
-        section {
-            margin-bottom: 80px;
-            padding: 0 20px;
-        }
-
-        h2 {
-            font-size: 3rem;
-            margin-bottom: 40px;
-            color: #333;
-            text-align: center;
-            position: relative;
-        }
-
-        h2::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background-color: #007bff;
-        }
-
-        h3 {
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-            color: #333;
-        }
-
-        /* --- Projects Grid --- */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            padding: 20px;
-        }
-
-        .project-item {
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .project-item:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .project-item img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-        }
-
-        .project-item .project-info {
-            padding: 20px;
-        }
-
-        .project-item h3 {
-            margin-bottom: 10px;
-        }
-
-        /* --- Modal --- */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 10;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.7);
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-            width: 80%;
-            max-width: 800px;
-            position: relative;
-        }
-
-        .close-modal {
-            color: #aaa;
-            position: absolute;
-            top: 10px;
-            right: 20px;
-            font-size: 30px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .close-modal:hover,
-        .close-modal:focus {
-            color: #333;
-        }
-
-        #modal-image {
-            width: 100%;
-            max-height: 400px;
-            object-fit: contain;
-            margin-bottom: 20px;
-            border-radius: 5px;
-        }
-
-        #modal-link {
-            display: inline-block;
-            background-color: #007bff;
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
-
-        #modal-link:hover {
-            background-color: #0056b3;
-        }
-
-        #modal-description {
-            margin-bottom: 20px;
-        }
-
-        /* --- About Section --- */
-        #about {
-            display: flex;
-            align-items: center;
-            gap: 40px;
-        }
-
-        #about img {
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            object-fit: cover;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        #about p {
-            font-size: 1.1rem;
-        }
-
-        /* --- Footer --- */
-        footer {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 20px;
-        }
-
-        /* --- Responsive --- */
-        @media (max-width: 768px) {
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .hero {
-                height: 80vh;
-            }
-
-            .hero h1 {
-                font-size: 3rem;
-            }
-
-            .hero p {
-                font-size: 1.2rem;
-            }
-
-            #about {
-                flex-direction: column;
-            }
-
-            #about img {
-                width: 200px;
-                height: 200px;
-            }
-        }
-
-        /* --- Odometer Clock Styles --- */
-        #custom-clock {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .clock-label {
-            font-size: 1.5rem;
-            margin-right: 10px;
-            color: #555;
-        }
-
-        .digit-container {
-            position: relative;
-            width: 40px;
-            height: 60px;
-            overflow: hidden;
-            margin: 0 5px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .digit {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.5s ease-in-out;
-        }
-
-        .digit span {
-            width: 100%;
-            height: 60px;
-            line-height: 60px;
-            text-align: center;
-            font-size: 2rem;
-            background-color: #eee;
-            border-bottom: 1px solid #ccc;
-        }
-
-        .digit span:last-child {
-            border-bottom: none;
-        }
-
-        .separator {
-            font-size: 2rem;
-            margin: 0 5px;
-        }
-    </style>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+</style>
 </head>
 <body>
-    <nav>
-        <div class="logo">HB Statistics</div>
-        <ul>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#about">About</a></li>
-        </ul>
-    </nav>
 
-    <div class="hero">
-        <h1>HB Statistics</h1>
-        <div class="animated-text">I maked YouTube Statistics videos</div>
+<!-- Particle background -->
+<canvas id="particles-js"></canvas>
+
+<header>
+  <div class="logo" tabindex="0">HB Statistics</div>
+  <nav>
+    <ul>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><button id="toggle-theme" aria-label="Toggle Light/Dark Mode">Light/Dark</button></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <section class="hero fade-in">
+    <h1>Hello, I'm HB Statistics</h1>
+    <p>Welcome to my ultra-modern portfolio showcasing the best projects and creations powered by passion, code, and creativity.</p>
+  </section>
+
+  <section id="projects" class="projects">
+    <div class="project-card fade-in delay-1" tabindex="0">
+      <div class="project-info">
+        <h3>Social Media Stats</h3>
+        <p>The Official Website For Social Media Stats. A Website That Shows Statistics Across Social Media.</p>
+        <a href="https://hbstatistics.github.io/Social-Media-Stats/" class="button" target="_blank" rel="noopener">View Project</a>
+      </div>
     </div>
-
-    <main>
-        <div id="custom-clock">
-            <span class="clock-label">My Time:</span>
-            <div class="digit-container">
-                <div class="digit" id="hours-tens"></div>
-            </div>
-            <div class="digit-container">
-                <div class="digit" id="hours-ones"></div>
-            </div>
-            <span class="separator">:</span>
-            <div class="digit-container">
-                <div class="digit" id="minutes-tens"></div>
-            </div>
-            <div class="digit-container">
-                <div class="digit" id="minutes-ones"></div>
-            </div>
-            <span class="separator">:</span>
-            <div class="digit-container">
-                <div class="digit" id="seconds-tens"></div>
-            </div>
-            <div class="digit-container">
-                <div class="digit" id="seconds-ones"></div>
-            </div>
-        </div>
-        <section id="projects">
-            <h2>Projects</h2>
-            <div class="projects-grid">
-                <!-- Project items will be added here by JavaScript -->
-            </div>
-        </section>
-
-        <section id="about">
-            <h2>About Me</h2>
-            <img src="https://images.socialblade.com/256x,q75/https://yt3.ggpht.com/pe6pOjJLtyA3AyBp6ty0fdJ6S_XYAj0-DfzcDZwpaMqZk1WnqZ1L2kzIbnImP-Zh4qXBDnYQ_Q=s192-c-k-c0x00ffffff-no-rj" alt="Your Profile">
-            <p>I create in-depth YouTube statistics videos! Stay updated on the latest subscriber battles, rankings, and trends—subscribe to my channel now! 🚀📊 </p>
-        </section>
-    </main>
-
-    <!-- Project Modal -->
-    <div id="project-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h3 id="modal-title"></h3>
-            <img id="modal-image" src="" alt="">
-            <p id="modal-description"></p>
-            <a id="modal-link" href="" target="_blank">View Project</a>
-        </div>
+    <div class="project-card fade-in delay-2" tabindex="0">
+      <div class="project-info">
+        <h3>Top 50 Fastest Growing Channels</h3>
+        <p>Shows the Top 50 Fastest Growing YouTube Channels In Real Time Using Mixerno.Space and YouTube API.</p>
+        <a href="https://hbstatistics.github.io/Top-50-Fastest-Growing-Channels/" class="button" target="_blank" rel="noopener">View Project</a>
+      </div>
     </div>
+    <div class="project-card fade-in delay-3" tabindex="0">
+      <div class="project-info">
+        <h3>Auto Subscriber Estimator</h3>
+        <p>A website that auto estimates subscriber counts with realistic daily gains.</p>
+        <a href="https://hbstatistics.github.io/Auto-Subscriber-Estimator/" class="button" target="_blank" rel="noopener">View Project</a>
+      </div>
+    </div>
+    <div class="project-card fade-in delay-4" tabindex="0">
+        <div class="project-info">
+          <h3>mrbeast-lastest</h3>
+          <p>A website that shows MrBeast lastest video stats.</p>
+          <a href="https://hbstatistics.github.io/mrbeast-lastest/" class="button" target="_blank" rel="noopener">View Project</a>
+        </div>
+        </div>
+        <div class="project-card fade-in delay-5" tabindex="0">
+            <div class="project-info">
+                <h3>custom-clock</h3>
+                <p>A clock with an odometer.</p>
+            <a href="https://hbstatistics.github.io/custom-clock/" class="button" target="_blank" rel="noopener">View Project</a>
+          </div>
+  </section>
 
-    <footer>
-        <p>&copy; 2025 HB Statistics. All rights reserved.</p>
-    </footer>
+  <section id="about" class="fade-in" style="margin-top: 6rem; max-width: 700px; margin-left:auto; margin-right:auto; text-align:center;">
+    <h2>About Me</h2>
+    <p>
+      I create insightful and engaging statistics videos that break down complex data into easy-to-understand visuals. Through clear explanations and compelling graphics, I help viewers discover meaningful trends and insights from numbers.
+    </p>
+  </section>
 
-    <script>
-        // Project Data (Add your projects here!)
-        const projects = [
-            {
-                title: "Social Media Stats",
-                image: "project1.jpg", // Replace with your image
-                description: "The Official Website For Social Media Stats.",
-                link: "https://realherobrineyt.github.io/Social-Media-Stats/",
-            },
-            {
-                title: "custom-clock",
-                image: "project2.jpg", // Replace with your image
-                description: "A clock with an odometer.",
-                link: "https://github.com/RealHerobrineYT/custom-clock",
-            },
-            // Add more projects...
-        ];
+  <section id="contact" class="fade-in" style="margin-top: 6rem; max-width: 700px; margin-left:auto; margin-right:auto; text-align:center;">
+    <h2>Contact</h2>
+    <p>
+      If you are interested in contacting me DM me on Twitter/X <a href="https://x.com/Herobrine_Y_T" target="_blank" rel="noopener">https://x.com/Herobrine_Y_T</a>.
+    </p>
+  </section>
+</main>
 
-        // Get elements
-        const projectsGrid = document.querySelector(".projects-grid");
-        const modal = document.getElementById("project-modal");
-        const modalTitle = document.getElementById("modal-title");
-        const modalImage = document.getElementById("modal-image");
-        const modalDescription = document.getElementById("modal-description");
-        const modalLink = document.getElementById("modal-link");
-        const closeModal = document.querySelector(".close-modal");
+<footer>
+  &copy; 2025 HB Statistics — Crafted with passion and code.
+</footer>
 
-        // Function to create project items
-        function createProjectItem(project) {
-            const projectItem = document.createElement("div");
-            projectItem.classList.add("project-item");
-            projectItem.innerHTML = `
-                <img src="${project.image}" alt="${project.title}">
-                <div class="project-info">
-                    <h3>${project.title}</h3>
-                </div>
-            `;
+<div id="cursor"></div>
 
-            projectItem.addEventListener("click", () => {
-                openModal(project);
-            });
+<script>
+  // Smooth scroll for nav links
+  document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
 
-            return projectItem;
-        }
+  // Light/dark mode toggle with localStorage
+  const toggleBtn = document.getElementById('toggle-theme');
+  const body = document.body;
 
-        // Function to open the modal
-        function openModal(project) {
-            modalTitle.textContent = project.title;
-            modalImage.src = project.image;
-            modalImage.alt = project.title;
-            modalDescription.textContent = project.description;
-            modalLink.href = project.link;
-            modal.style.display = "block";
-        }
+  function setTheme(theme) {
+    if(theme === 'light') {
+      body.classList.add('light');
+      toggleBtn.textContent = 'Dark Mode';
+    } else {
+      body.classList.remove('light');
+      toggleBtn.textContent = 'Light Mode';
+    }
+    localStorage.setItem('theme', theme);
+  }
 
-        // Function to close the modal
-        function closeModalFunc() {
-            modal.style.display = "none";
-        }
+  toggleBtn.addEventListener('click', () => {
+    if(body.classList.contains('light')) {
+      setTheme('dark');
+    } else {
+      setTheme('light');
+    }
+  });
 
-        // Add projects to the grid
-        projects.forEach((project) => {
-            const projectItem = createProjectItem(project);
-            projectsGrid.appendChild(projectItem);
-        });
+  // Load saved theme
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  setTheme(savedTheme);
 
-        // Event listener to close the modal
-        closeModal.addEventListener("click", closeModalFunc);
-        window.addEventListener("click", (event) => {
-            if (event.target == modal) {
-                closeModalFunc();
-            }
-        });
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
 
-        // --- Odometer Clock JavaScript ---
-        function updateOdometerClock() {
-            const now = new Date();
-            let hours = now.getHours();
-            const minutes = now.getMinutes();
-            const seconds = now.getSeconds();
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
 
-            // Format hours to 2 digits
-            const hoursTens = Math.floor(hours / 10);
-            const hoursOnes = hours % 10;
+  // Enlarge cursor on hover of links and buttons
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+  });
 
-            // Format minutes to 2 digits
-            const minutesTens = Math.floor(minutes / 10);
-            const minutesOnes = minutes % 10;
+  // 3D Tilt effect on cards
+  const cards = document.querySelectorAll('.project-card');
 
-            // Format seconds to 2 digits
-            const secondsTens = Math.floor(seconds / 10);
-            const secondsOnes = seconds % 10;
+  cards.forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left; // x position within card
+      const y = e.clientY - rect.top;  // y position within card
 
-            updateDigit('hours-tens', hoursTens);
-            updateDigit('hours-ones', hoursOnes);
-            updateDigit('minutes-tens', minutesTens);
-            updateDigit('minutes-ones', minutesOnes);
-            updateDigit('seconds-tens', secondsTens);
-            updateDigit('seconds-ones', secondsOnes);
-        }
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
 
-        function updateDigit(digitId, number) {
-            const digitElement = document.getElementById(digitId);
-            const currentTop = parseFloat(digitElement.style.top || 0);
-            const newTop = -number * 60; // 60px is the height of each digit slot
+      const deltaX = (x - centerX) / centerX;
+      const deltaY = (y - centerY) / centerY;
 
-            // Check if the digit needs to change
-            if (currentTop !== newTop) {
-                digitElement.style.top = `${newTop}px`;
-            }
-        }
+      const maxTilt = 12; // degrees
 
-        function createDigitSlots(digitId) {
-            const digitElement = document.getElementById(digitId);
-            for (let i = 0; i <= 9; i++) {
-                const span = document.createElement('span');
-                span.textContent = i;
-                digitElement.appendChild(span);
-            }
-        }
+      card.style.transform = `rotateX(${-deltaY * maxTilt}deg) rotateY(${deltaX * maxTilt}deg) scale(1.05)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'rotateX(0) rotateY(0) scale(1)';
+    });
+  });
+</script>
 
-        // Create digit slots for each digit
-        createDigitSlots('hours-tens');
-        createDigitSlots('hours-ones');
-        createDigitSlots('minutes-tens');
-        createDigitSlots('minutes-ones');
-        createDigitSlots('seconds-tens');
-        createDigitSlots('seconds-ones');
+<!-- Particle.js script from CDN -->
+<script src="https://cdn.jsdelivr.net/npm/tsparticles@2.11.1/tsparticles.bundle.min.js"></script>
+<script>
+  // Initialize particles background
+  tsParticles.load("particles-js", {
+    fullScreen: { enable: false },
+    background: { color: { value: "transparent" }},
+    fpsLimit: 60,
+    interactivity: {
+      detectsOn: "canvas",
+      events: {
+        onHover: { enable: true, mode: "repulse" },
+        resize: true
+      },
+      modes: {
+        repulse: { distance: 100, duration: 0.4 }
+      }
+    },
+    particles: {
+      number: {
+        value: 70,
+        density: { enable: true, area: 800 }
+      },
+      color: { value: "#00ffe7" },
+      shape: { type: "circle" },
+      opacity: {
+        value: 0.25,
+        random: true,
+        anim: { enable: true, speed: 1, opacity_min: 0.05, sync: false }
+      },
+      size: {
+        value: 3,
+        random: { enable: true, minimumValue: 1 }
+      },
+      move: {
+        enable: true,
+        speed: 1,
+        direction: "none",
+        random: true,
+        straight: false,
+        outModes: { default: "out" },
+        attract: { enable: false }
+      }
+    }
+  });
+</script>
 
-        // Update the clock every second
-        setInterval(updateOdometerClock, 1000);
-        updateOdometerClock(); // Initial call to display the time immediately
-    </script>
 </body>
 </html>
