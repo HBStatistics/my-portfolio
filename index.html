@@ -1,495 +1,472 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>HB Statistics Portfolio</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=JetBrains+Mono&display=swap" rel="stylesheet" />
-<style>
-  /* Reset and base */
-  *, *::before, *::after {
-    box-sizing: border-box;
-  }
-  body {
-    margin: 0; padding: 0;
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #1a1a2e, #16213e);
-    color: #e0e0e0;
-    overflow-x: hidden;
-    transition: background 0.5s ease, color 0.5s ease;
-    cursor: none;
-  }
-  a {
-    color: #00ffe7;
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-  a:hover {
-    color: #00b3a1;
-  }
-
-  /* Light mode */
-  body.light {
-    background: linear-gradient(135deg, #fefefe, #dcdcdc);
-    color: #222;
-  }
-  body.light a {
-    color: #006d71;
-  }
-  body.light a:hover {
-    color: #004b4d;
-  }
-  body.light header {
-    background: rgba(255 255 255 / 0.9);
-    color: #222;
-  }
-  body.light .project-card {
-    background: #ffffff;
-    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-    color: #222;
-  }
-  body.light .project-info p {
-    color: #555;
-  }
-  body.light .project-info a.button {
-    border-color: #006d71;
-    color: #006d71;
-  }
-  body.light .project-info a.button:hover {
-    background-color: #006d71;
-    color: white;
-  }
-
-  /* Container & layout */
-  header {
-    position: fixed;
-    width: 100%;
-    top: 0; left: 0;
-    background: rgba(10,10,20,0.85);
-    backdrop-filter: saturate(180%) blur(10px);
-    z-index: 999;
-    padding: 1rem 3rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: background 0.5s ease, color 0.5s ease;
-  }
-  header .logo {
-    font-weight: 700;
-    font-size: 1.8rem;
-    letter-spacing: 2px;
-    color: #00ffe7;
-    cursor: pointer;
-    user-select: none;
-  }
-  nav ul {
-    list-style: none;
-    display: flex;
-    gap: 2rem;
-    margin: 0;
-    padding: 0;
-  }
-  nav ul li {
-    font-weight: 600;
-    font-size: 1rem;
-  }
-  nav ul li:hover {
-    color: #00b3a1;
-  }
-
-  main {
-    padding-top: 6rem;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding-bottom: 6rem;
-  }
-
-  /* Hero section */
-  .hero {
-    text-align: center;
-    padding: 5rem 1rem 8rem;
-    position: relative;
-    z-index: 2;
-  }
-  .hero h1 {
-    font-size: 3.5rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    background: linear-gradient(90deg, #00ffe7, #00b3a1);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    user-select: none;
-  }
-  .hero p {
-    font-size: 1.25rem;
-    font-weight: 300;
-    max-width: 600px;
-    margin: 0 auto;
-    line-height: 1.6;
-    user-select: none;
-  }
-
-  /* Projects grid */
-  .projects {
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(320px,1fr));
-    gap: 2.5rem;
-    position: relative;
-    z-index: 2;
-  }
-  .project-card {
-    background: #0f1624;
-    border-radius: 16px;
-    padding: 2rem 1.5rem;
-    box-shadow: 0 15px 30px rgba(0,255,231,0.15);
-    cursor: grab;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
-    will-change: transform;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  .project-card:active {
-    cursor: grabbing;
-  }
-  .project-card:hover {
-    box-shadow: 0 30px 45px rgba(0,255,231,0.35);
-  }
-  .project-info h3 {
-    margin: 0 0 0.75rem;
-    font-weight: 600;
-    font-size: 1.6rem;
-    user-select: none;
-  }
-  .project-info p {
-    font-weight: 300;
-    font-size: 1.1rem;
-    line-height: 1.5;
-    color: #a0a0a0;
-    user-select: none;
-  }
-  .project-info a.button {
-    margin-top: 1.5rem;
-    align-self: flex-start;
-    padding: 0.5rem 1.25rem;
-    border: 2px solid #00ffe7;
-    border-radius: 8px;
-    font-weight: 600;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  .project-info a.button:hover {
-    background-color: #00ffe7;
-    color: #0f1624;
-  }
-
-  /* Footer */
-  footer {
-    text-align: center;
-    padding: 3rem 1rem;
-    font-weight: 300;
-    font-size: 0.9rem;
-    color: #444;
-    position: relative;
-    z-index: 2;
-  }
-
-  /* Scroll animation */
-  .fade-in {
-    opacity: 0;
-    transform: translateY(30px);
-    animation: fadeInUp 1s forwards;
-  }
-  .fade-in.delay-1 {
-    animation-delay: 0.3s;
-  }
-  .fade-in.delay-2 {
-    animation-delay: 0.6s;
-  }
-  .fade-in.delay-3 {
-    animation-delay: 0.9s;
-  }
-
-  @keyframes fadeInUp {
-    to {
-      opacity: 1;
-      transform: translateY(0);
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HB Statistics Portfolio</title>
+  <link rel="icon" href="https://yt3.ggpht.com/veDA1FfRTsN5P5U97lgW9TRP4u0FnGRQIphD1DQs5TRvoHqZHU4xizu0UxIx5GMdnvKa8mkxQzw=s192-c-k-c0x00ffffff-no-rj" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=JetBrains+Mono&display=swap" rel="stylesheet" />
+  <style>
+    /* Reset and base */
+    *, *::before, *::after {
+      box-sizing: border-box;
     }
-  }
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      color: #e0e0e0;
+      overflow-x: hidden;
+      transition: background 0.5s ease, color 0.5s ease;
+      cursor: none;
+    }
+    a {
+      color: #00ffe7;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    a:hover {
+      color: #00b3a1;
+    }
 
-  /* Responsive typography */
-  @media (max-width: 600px) {
-    .hero h1 {
-      font-size: 2.5rem;
+    /* Light mode */
+    body.light {
+      background: linear-gradient(135deg, #fefefe, #dcdcdc);
+      color: #222;
+    }
+    body.light a {
+      color: #006d71;
+    }
+    body.light a:hover {
+      color: #004b4d;
+    }
+    body.light header {
+      background: rgba(255 255 255 / 0.9);
+      color: #222;
+    }
+    body.light .project-card {
+      background: #ffffff;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+      color: #222;
+    }
+    body.light .project-info p {
+      color: #555;
+    }
+    body.light .project-info a.button {
+      border-color: #006d71;
+      color: #006d71;
+    }
+    body.light .project-info a.button:hover {
+      background-color: #006d71;
+      color: white;
+    }
+
+    /* Container & layout */
+    header {
+      position: fixed;
+      width: 100%;
+      top: 0; left: 0;
+      background: rgba(10,10,20,0.85);
+      backdrop-filter: saturate(180%) blur(10px);
+      z-index: 999;
+      padding: 1rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.5s ease, color 0.5s ease;
+    }
+    header .logo {
+      font-weight: 700;
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+      color: #00ffe7;
+      cursor: pointer;
+      user-select: none;
     }
     nav ul {
-      gap: 1.2rem;
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+      margin: 0;
+      padding: 0;
     }
-  }
+    nav ul li {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    nav ul li:hover {
+      color: #00b3a1;
+    }
 
-  /* Custom cursor */
-  #cursor {
-    position: fixed;
-    top: 0; left: 0;
-    width: 24px;
-    height: 24px;
-    background-color: rgba(0,255,231,0.7);
-    border-radius: 50%;
-    pointer-events: none;
-    transform: translate(-50%, -50%);
-    transition: width 0.2s ease, height 0.2s ease, background-color 0.3s ease;
-    z-index: 10000;
-    mix-blend-mode: difference;
-    will-change: transform, width, height, background-color;
-  }
-  #cursor.hovered {
-    width: 48px;
-    height: 48px;
-    background-color: rgba(0,255,231,0.9);
-  }
+    main {
+      padding-top: 6rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding-bottom: 6rem;
+    }
 
-  /* Toggle button */
-  #toggle-theme {
-    cursor: pointer;
-    background: none;
-    border: 2px solid #00ffe7;
-    border-radius: 24px;
-    padding: 0.3rem 1rem;
-    font-weight: 600;
-    color: #00ffe7;
-    font-family: 'Poppins', sans-serif;
-    user-select: none;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  #toggle-theme:hover {
-    background-color: #00ffe7;
-    color: #0f1624;
-  }
+    /* Hero section */
+    .hero {
+      text-align: center;
+      padding: 5rem 1rem 8rem;
+      position: relative;
+      z-index: 2;
+    }
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, #00ffe7, #00b3a1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      user-select: none;
+    }
+    .hero p {
+      font-size: 1.25rem;
+      font-weight: 300;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+      user-select: none;
+    }
 
-  /* Particle canvas */
-  #particles-js {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    pointer-events: none;
-  }
+    /* Projects grid */
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(320px,1fr));
+      gap: 2.5rem;
+      position: relative;
+      z-index: 2;
+    }
+    .project-card {
+      background: #0f1624;
+      border-radius: 16px;
+      padding: 2rem 1.5rem;
+      box-shadow: 0 15px 30px rgba(0,255,231,0.15);
+      cursor: grab;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      will-change: transform;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .project-card:active {
+      cursor: grabbing;
+    }
+    .project-card:hover {
+      box-shadow: 0 30px 45px rgba(0,255,231,0.35);
+    }
+    .project-info h3 {
+      margin: 0 0 0.75rem;
+      font-weight: 600;
+      font-size: 1.6rem;
+      user-select: none;
+    }
+    .project-info p {
+      font-weight: 300;
+      font-size: 1.1rem;
+      line-height: 1.5;
+      color: #a0a0a0;
+      user-select: none;
+    }
+    .project-info a.button {
+      margin-top: 1.5rem;
+      align-self: flex-start;
+      padding: 0.5rem 1.25rem;
+      border: 2px solid #00ffe7;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .project-info a.button:hover {
+      background-color: #00ffe7;
+      color: #0f1624;
+    }
 
-</style>
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 3rem 1rem;
+      font-weight: 300;
+      font-size: 0.9rem;
+      color: #444;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Scroll animation */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 1s forwards;
+    }
+    .fade-in.delay-1 { animation-delay: 0.3s; }
+    .fade-in.delay-2 { animation-delay: 0.6s; }
+    .fade-in.delay-3 { animation-delay: 0.9s; }
+    .fade-in.delay-4 { animation-delay: 1.2s; }
+    .fade-in.delay-5 { animation-delay: 1.5s; }
+    .fade-in.delay-6 { animation-delay: 1.8s; }
+    .fade-in.delay-7 { animation-delay: 2.1s; }
+
+    @keyframes fadeInUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive typography */
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 2.5rem; }
+      nav ul { gap: 1.2rem; }
+    }
+
+    /* Custom cursor */
+    #cursor {
+      position: fixed;
+      top: 0; left: 0;
+      width: 24px; height: 24px;
+      background-color: rgba(0,255,231,0.7);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s ease, height 0.2s ease, background-color 0.3s ease;
+      z-index: 10000;
+      mix-blend-mode: difference;
+    }
+    #cursor.hovered {
+      width: 48px; height: 48px;
+      background-color: rgba(0,255,231,0.9);
+    }
+
+    /* Toggle button */
+    #toggle-theme {
+      cursor: pointer;
+      background: none;
+      border: 2px solid #00ffe7;
+      border-radius: 24px;
+      padding: 0.3rem 1rem;
+      font-weight: 600;
+      color: #00ffe7;
+      font-family: 'Poppins', sans-serif;
+      user-select: none;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    #toggle-theme:hover {
+      background-color: #00ffe7;
+      color: #0f1624;
+    }
+  </style>
 </head>
 <body>
 
-<!-- Particle background -->
-<canvas id="particles-js"></canvas>
+  <!-- Particle background -->
+  <canvas id="particles-js"></canvas>
 
-<header>
-  <div class="logo" tabindex="0">HB Statistics</div>
-  <nav>
-    <ul>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#contact">Contact</a></li>
-      <li><button id="toggle-theme" aria-label="Toggle Light/Dark Mode">Light/Dark</button></li>
-    </ul>
-  </nav>
-</header>
+  <header>
+    <div class="logo" tabindex="0">HB Statistics</div>
+    <nav>
+      <ul>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><button id="toggle-theme" aria-label="Toggle Light/Dark Mode">Light/Dark</button></li>
+      </ul>
+    </nav>
+  </header>
 
-<main>
-  <section class="hero fade-in">
-    <h1>Hello, I'm HB Statistics</h1>
-    <p>Welcome to my ultra-modern portfolio showcasing the best projects and creations powered by passion, code, and creativity.</p>
-  </section>
+  <main>
+    <section class="hero fade-in">
+      <h1>Hello, I'm HB Statistics</h1>
+      <p>Welcome to my ultra-modern portfolio showcasing the best projects and creations powered by passion, code, and creativity.</p>
+    </section>
 
-  <section id="projects" class="projects">
-    <div class="project-card fade-in delay-1" tabindex="0">
-      <div class="project-info">
-        <h3>Social Media Stats</h3>
-        <p>The Official Website For Social Media Stats. A Website That Shows Statistics Across Social Media.</p>
-        <a href="https://hbstatistics.github.io/Social-Media-Stats/" class="button" target="_blank" rel="noopener">View Project</a>
+    <section id="projects" class="projects">
+      <div class="project-card fade-in delay-1" tabindex="0">
+        <div class="project-info">
+          <h3>Social Media Stats</h3>
+          <p>The Official Website For Social Media Stats. A Website That Shows Statistics Across Social Media.</p>
+          <a href="https://hbstatistics.github.io/Social-Media-Stats/" class="button" target="_blank" rel="noopener">View Project</a>
+        </div>
       </div>
-    </div>
-    <div class="project-card fade-in delay-2" tabindex="0">
-      <div class="project-info">
-        <h3>Top 50 Fastest Growing Channels</h3>
-        <p>Shows the Top 50 Fastest Growing YouTube Channels In Real Time Using Mixerno.Space and YouTube API.</p>
-        <a href="https://hbstatistics.github.io/Top-50-Fastest-Growing-Channels/" class="button" target="_blank" rel="noopener">View Project</a>
+
+      <div class="project-card fade-in delay-2" tabindex="0">
+        <div class="project-info">
+          <h3>Top 50 Fastest Growing Channels</h3>
+          <p>Shows the Top 50 Fastest Growing YouTube Channels In Real Time Using Mixerno.Space and YouTube API.</p>
+          <a href="https://hbstatistics.github.io/Top-50-Fastest-Growing-Channels/" class="button" target="_blank" rel="noopener">View Project</a>
+        </div>
       </div>
-    </div>
-    <div class="project-card fade-in delay-3" tabindex="0">
-      <div class="project-info">
-        <h3>Auto Subscriber Estimator</h3>
-        <p>A website that auto estimates subscriber counts with realistic daily gains.</p>
-        <a href="https://hbstatistics.github.io/Auto-Subscriber-Estimator/" class="button" target="_blank" rel="noopener">View Project</a>
+
+      <div class="project-card fade-in delay-3" tabindex="0">
+        <div class="project-info">
+          <h3>Auto Subscriber Estimator</h3>
+          <p>A website that auto estimates subscriber counts with realistic daily gains.</p>
+          <a href="https://hbstatistics.github.io/Auto-Subscriber-Estimator/" class="button" target="_blank" rel="noopener">View Project</a>
+        </div>
       </div>
-    </div>
-    <div class="project-card fade-in delay-4" tabindex="0">
+
+      <div class="project-card fade-in delay-4" tabindex="0">
         <div class="project-info">
           <h3>mrbeast-lastest</h3>
-          <p>A website that shows MrBeast lastest video stats.</p>
+          <p>A website that shows MrBeast's latest video stats.</p>
           <a href="https://hbstatistics.github.io/mrbeast-lastest/" class="button" target="_blank" rel="noopener">View Project</a>
         </div>
+      </div>
+
+      <div class="project-card fade-in delay-5" tabindex="0">
+        <div class="project-info">
+          <h3>custom-clock</h3>
+          <p>A clock with an odometer.</p>
+          <a href="https://hbstatistics.github.io/custom-clock/" class="button" target="_blank" rel="noopener">View Project</a>
         </div>
-        <div class="project-card fade-in delay-5" tabindex="0">
-            <div class="project-info">
-                <h3>custom-clock</h3>
-                <p>A clock with an odometer.</p>
-            <a href="https://hbstatistics.github.io/custom-clock/" class="button" target="_blank" rel="noopener">View Project</a>
-          </div>
+      </div>
+
+      <div class="project-card fade-in delay-6" tabindex="0">
+        <div class="project-info">
+          <h3>YouTube Subscriber Battle Tracker</h3>
+          <p>A website that shows upcoming subscriber battles on YouTube’s top 1,000 channels.</p>
+          <a href="https://hbstatistics.github.io/YouTube-Subscriber-Battle-Tracker/" class="button" target="_blank" rel="noopener">View Project</a>
         </div>
-        <div class="project-card fade-in delay-6" tabindex="0">
-            <div class="project-info">
-                <h3>YouTube Subscriber Battle Tracker</h3>
-                <p>A website that shows the next subscribers battles on YouTube in the top 1,000.</p>
-                <a href="https://hbstatistics.github.io/YouTube-Subscriber-Battle-Tracker/" class="button" target="_blank" rel="noopener">View Project</a>
+      </div>
+
+      <div class="project-card fade-in delay-7" tabindex="0">
+        <div class="project-info">
+          <h3>Social Blade Daily Data Collector</h3>
+          <p>A lightweight tool by HB Statistics to convert Social Blade Daily Data source code into clean, exportable subscriber data.</p>
+          <a href="https://hbstatistics.github.io/HB-Social-Blade-Daily-Data-Collector/" class="button" target="_blank" rel="noopener">View Project</a>
         </div>
-  </section>
+      </div>
+    </section>
 
-  <section id="about" class="fade-in" style="margin-top: 6rem; max-width: 700px; margin-left:auto; margin-right:auto; text-align:center;">
-    <h2>About Me</h2>
-    <p>
-      I create insightful and engaging statistics videos that break down complex data into easy-to-understand visuals. Through clear explanations and compelling graphics, I help viewers discover meaningful trends and insights from numbers.
-    </p>
-  </section>
+    <section id="about" class="fade-in" style="margin-top: 6rem; max-width: 700px; margin-left:auto; margin-right:auto; text-align:center;">
+      <h2>About Me</h2>
+      <p>
+        I create insightful and engaging statistics videos that break down complex data into easy-to-understand visuals. Through clear explanations and compelling graphics, I help viewers discover meaningful trends and insights from numbers.
+      </p>
+    </section>
 
-  <section id="contact" class="fade-in" style="margin-top: 6rem; max-width: 700px; margin-left:auto; margin-right:auto; text-align:center;">
-    <h2>Contact</h2>
-    <p>
-      If you are interested in contacting me DM me on Twitter/X <a href="https://x.com/Herobrine_Y_T" target="_blank" rel="noopener">https://x.com/Herobrine_Y_T</a>.
-    </p>
-  </section>
-</main>
+    <section id="contact" class="fade-in" style="margin-top: 6rem; max-width: 700px; margin-left:auto; margin-right:auto; text-align:center;">
+      <h2>Contact</h2>
+      <p>
+        If you are interested in contacting me DM me on Twitter/X <a href="https://x.com/Herobrine_Y_T" target="_blank" rel="noopener">https://x.com/Herobrine_Y_T</a>.
+      </p>
+    </section>
+  </main>
 
-<footer>
-  &copy; 2025 HB Statistics — Crafted with passion and code.
-</footer>
+  <footer>
+    &copy; 2025 HB Statistics — Crafted with passion and code.
+  </footer>
 
-<div id="cursor"></div>
+  <div id="cursor"></div>
 
-<script>
-  // Smooth scroll for nav links
-  document.querySelectorAll('nav a').forEach(link => {
-    link.addEventListener('click', e => {
-      e.preventDefault();
-      const target = document.querySelector(link.getAttribute('href'));
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth' });
+  <script>
+    // Smooth scroll for nav links
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Light/dark mode toggle with localStorage
+    const toggleBtn = document.getElementById('toggle-theme');
+    const bodyEl = document.body;
+
+    function setTheme(theme) {
+      if (theme === 'light') {
+        bodyEl.classList.add('light');
+        toggleBtn.textContent = 'Dark Mode';
+      } else {
+        bodyEl.classList.remove('light');
+        toggleBtn.textContent = 'Light Mode';
+      }
+      localStorage.setItem('theme', theme);
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      setTheme(bodyEl.classList.contains('light') ? 'dark' : 'light');
+    });
+
+    // Load saved theme
+    setTheme(localStorage.getItem('theme') || 'dark');
+
+    // Custom cursor
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+    });
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+    });
+
+    // 3D Tilt effect on cards
+    document.querySelectorAll('.project-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const deltaX = (x - centerX) / centerX;
+        const deltaY = (y - centerY) / centerY;
+        const maxTilt = 12;
+        card.style.transform = `rotateX(${-deltaY * maxTilt}deg) rotateY(${deltaX * maxTilt}deg) scale(1.05)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'rotateX(0) rotateY(0) scale(1)';
+      });
+    });
+  </script>
+
+  <!-- Particle.js script from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.11.1/tsparticles.bundle.min.js"></script>
+  <script>
+    // Initialize particles background
+    tsParticles.load("particles-js", {
+      fullScreen: { enable: false },
+      background: { color: { value: "transparent" }},
+      fpsLimit: 60,
+      interactivity: {
+        detectsOn: "canvas",
+        events: {
+          onHover: { enable: true, mode: "repulse" },
+          resize: true
+        },
+        modes: {
+          repulse: { distance: 100, duration: 0.4 }
+        }
+      },
+      particles: {
+        number: {
+          value: 70,
+          density: { enable: true, area: 800 }
+        },
+        color: { value: "#00ffe7" },
+        shape: { type: "circle" },
+        opacity: {
+          value: 0.25,
+          random: true,
+          anim: { enable: true, speed: 1, opacity_min: 0.05, sync: false }
+        },
+        size: {
+          value: 3,
+          random: { enable: true, minimumValue: 1 }
+        },
+        move: {
+          enable: true,
+          speed: 1,
+          direction: "none",
+          random: true,
+          straight: false,
+          outModes: { default: "out" }
+        }
       }
     });
-  });
-
-  // Light/dark mode toggle with localStorage
-  const toggleBtn = document.getElementById('toggle-theme');
-  const body = document.body;
-
-  function setTheme(theme) {
-    if(theme === 'light') {
-      body.classList.add('light');
-      toggleBtn.textContent = 'Dark Mode';
-    } else {
-      body.classList.remove('light');
-      toggleBtn.textContent = 'Light Mode';
-    }
-    localStorage.setItem('theme', theme);
-  }
-
-  toggleBtn.addEventListener('click', () => {
-    if(body.classList.contains('light')) {
-      setTheme('dark');
-    } else {
-      setTheme('light');
-    }
-  });
-
-  // Load saved theme
-  const savedTheme = localStorage.getItem('theme') || 'dark';
-  setTheme(savedTheme);
-
-  // Custom cursor
-  const cursor = document.getElementById('cursor');
-
-  document.addEventListener('mousemove', e => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
-  });
-
-  // Enlarge cursor on hover of links and buttons
-  document.querySelectorAll('a, button').forEach(el => {
-    el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
-    el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
-  });
-
-  // 3D Tilt effect on cards
-  const cards = document.querySelectorAll('.project-card');
-
-  cards.forEach(card => {
-    card.addEventListener('mousemove', e => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left; // x position within card
-      const y = e.clientY - rect.top;  // y position within card
-
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-
-      const deltaX = (x - centerX) / centerX;
-      const deltaY = (y - centerY) / centerY;
-
-      const maxTilt = 12; // degrees
-
-      card.style.transform = `rotateX(${-deltaY * maxTilt}deg) rotateY(${deltaX * maxTilt}deg) scale(1.05)`;
-    });
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = 'rotateX(0) rotateY(0) scale(1)';
-    });
-  });
-</script>
-
-<!-- Particle.js script from CDN -->
-<script src="https://cdn.jsdelivr.net/npm/tsparticles@2.11.1/tsparticles.bundle.min.js"></script>
-<script>
-  // Initialize particles background
-  tsParticles.load("particles-js", {
-    fullScreen: { enable: false },
-    background: { color: { value: "transparent" }},
-    fpsLimit: 60,
-    interactivity: {
-      detectsOn: "canvas",
-      events: {
-        onHover: { enable: true, mode: "repulse" },
-        resize: true
-      },
-      modes: {
-        repulse: { distance: 100, duration: 0.4 }
-      }
-    },
-    particles: {
-      number: {
-        value: 70,
-        density: { enable: true, area: 800 }
-      },
-      color: { value: "#00ffe7" },
-      shape: { type: "circle" },
-      opacity: {
-        value: 0.25,
-        random: true,
-        anim: { enable: true, speed: 1, opacity_min: 0.05, sync: false }
-      },
-      size: {
-        value: 3,
-        random: { enable: true, minimumValue: 1 }
-      },
-      move: {
-        enable: true,
-        speed: 1,
-        direction: "none",
-        random: true,
-        straight: false,
-        outModes: { default: "out" },
-        attract: { enable: false }
-      }
-    }
-  });
-</script>
+  </script>
 
 </body>
 </html>
