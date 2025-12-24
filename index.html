@@ -12,13 +12,26 @@
       box-sizing: border-box;
     }
     body {
-      margin: 0; padding: 0;
+      margin: 0;
+      padding: 0;
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #1a1a2e, #16213e);
-      color: #e0e0e0;
+      background: radial-gradient(circle at 20% -20%, rgba(0,255,231,0.15), transparent 45%), linear-gradient(135deg, #0f0f1a, #13182c 60%, #0b0d18 100%);
+      color: #e6f0ff;
       overflow-x: hidden;
       transition: background 0.5s ease, color 0.5s ease;
-      cursor: none;
+      cursor: default;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle at 80% 10%, rgba(0,255,231,0.15), transparent 40%), radial-gradient(circle at 10% 80%, rgba(0,127,255,0.12), transparent 45%);
+      pointer-events: none;
+      opacity: 0.8;
+      z-index: 1;
     }
     a {
       color: #00ffe7;
@@ -31,8 +44,11 @@
 
     /* Light mode */
     body.light {
-      background: linear-gradient(135deg, #fefefe, #dcdcdc);
+      background: radial-gradient(circle at 20% -20%, rgba(0,255,231,0.08), transparent 45%), linear-gradient(135deg, #ffffff, #dcdcdc 60%, #d6d6d6 100%);
       color: #222;
+    }
+    body.light::before {
+      background-image: radial-gradient(circle at 80% 10%, rgba(0,0,0,0.12), transparent 40%), radial-gradient(circle at 10% 80%, rgba(0,127,255,0.1), transparent 45%);
     }
     body.light a {
       color: #006d71;
@@ -45,7 +61,7 @@
       color: #222;
     }
     body.light .project-card {
-      background: #ffffff;
+      background: rgba(255,255,255,0.9);
       box-shadow: 0 15px 30px rgba(0,0,0,0.1);
       color: #222;
     }
@@ -59,6 +75,18 @@
     body.light .project-info a.button:hover {
       background-color: #006d71;
       color: white;
+    }
+    body.light .contact-card {
+      background: rgba(255,255,255,0.95);
+      color: #222;
+    }
+    body.light .contact-card .discord-link {
+      border-color: #006d71;
+      color: #006d71;
+    }
+    body.light .contact-card .discord-link:hover {
+      background-color: #006d71;
+      color: #fff;
     }
 
     /* Container & layout */
@@ -74,6 +102,16 @@
       justify-content: space-between;
       align-items: center;
       transition: background 0.5s ease, color 0.5s ease;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.35);
+      isolation: isolate;
+    }
+    header::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 20% 20%, rgba(0,255,231,0.2), transparent 45%);
+      pointer-events: none;
+      z-index: -1;
     }
     header .logo {
       font-weight: 700;
@@ -100,17 +138,34 @@
 
     main {
       padding-top: 6rem;
-      max-width: 1100px;
+      max-width: 1400px;
       margin: 0 auto;
       padding-bottom: 6rem;
+      position: relative;
+      z-index: 2;
     }
 
     /* Hero section */
     .hero {
       text-align: center;
-      padding: 5rem 1rem 8rem;
+      padding: 5rem 1rem 6rem;
       position: relative;
       z-index: 2;
+      background: rgba(10,15,40,0.75);
+      border-radius: 30px;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+      margin: 0 1rem 4rem;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 20%;
+      background: radial-gradient(circle, rgba(0,255,231,0.25), transparent 60%);
+      opacity: 0.9;
+      filter: blur(30px);
+      pointer-events: none;
+      z-index: -1;
     }
     .hero h1 {
       font-size: 3.5rem;
@@ -118,38 +173,129 @@
       margin-bottom: 1rem;
       background: linear-gradient(90deg, #00ffe7, #00b3a1);
       -webkit-background-clip: text;
+      background-clip: text;
       -webkit-text-fill-color: transparent;
       user-select: none;
     }
     .hero p {
       font-size: 1.25rem;
       font-weight: 300;
-      max-width: 600px;
+      max-width: 640px;
       margin: 0 auto;
       line-height: 1.6;
       user-select: none;
     }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-top: 1.75rem;
+      padding: 0.45rem 1.25rem;
+      border-radius: 999px;
+      border: 1px solid rgba(0,255,231,0.5);
+      font-size: 0.9rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(0,255,231,0.9);
+      background: rgba(0,255,231,0.08);
+    }
 
     /* Projects grid */
+    .projects-section {
+      margin: 0 auto 4rem;
+      padding: 3rem 2.5rem 3.5rem;
+      border-radius: 40px;
+      background: linear-gradient(180deg, rgba(6, 8, 25, 0.9), rgba(10, 12, 30, 0.95));
+      border: 1px solid rgba(255,255,255,0.05);
+      box-shadow: 0 30px 70px rgba(0,0,0,0.5);
+      position: relative;
+      overflow: hidden;
+      max-width: 1380px;
+    }
+    .projects-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 20% -10%, rgba(0,255,231,0.18), transparent 45%), radial-gradient(circle at 80% 5%, rgba(0,179,193,0.14), transparent 45%);
+      opacity: 0.6;
+      z-index: 0;
+      filter: blur(20px);
+    }
+    .projects-panel {
+      position: relative;
+      z-index: 1;
+    }
+    .projects-panel::after {
+      content: "";
+      position: absolute;
+      inset: 10% -15%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,255,231,0.08), transparent 65%);
+      opacity: 0.9;
+      pointer-events: none;
+      z-index: -1;
+    }
+    .section-heading {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 2rem;
+    }
+    .section-heading h2 {
+      font-size: 2.6rem;
+      margin: 0.2rem 0;
+      letter-spacing: 1px;
+      color: #e0eefe;
+    }
+    .section-heading .section-kicker {
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      letter-spacing: 0.4em;
+      color: rgba(0,255,231,0.65);
+      margin-bottom: 0.45rem;
+    }
+    .section-heading p {
+      margin: 0;
+      color: #b6c6df;
+      font-size: 1rem;
+    }
     .projects {
       display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(320px,1fr));
-      gap: 2.5rem;
+      grid-template-columns: repeat(3, minmax(360px, 1fr));
+      gap: 1rem;
       position: relative;
       z-index: 2;
+      align-items: stretch;
+      grid-auto-rows: minmax(320px, auto);
     }
     .project-card {
-      background: #0f1624;
-      border-radius: 16px;
-      padding: 2rem 1.5rem;
-      box-shadow: 0 15px 30px rgba(0,255,231,0.15);
+      background: linear-gradient(180deg, rgba(15,22,36,0.95), rgba(3,7,18,0.9));
+      border-radius: 20px;
+      padding: 1.75rem 1.25rem;
+      box-shadow: 0 20px 45px rgba(0,255,231,0.25);
       cursor: grab;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
       position: relative;
       will-change: transform;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      border: 1px solid rgba(0,255,231,0.3);
+      min-height: 320px;
+      min-height: 360px;
+      height: 100%;
+    }
+    .project-card::before {
+      content: "";
+      position: absolute;
+      inset: 1px;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(0,255,231,0.4), rgba(0,179,161,0.3));
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      -webkit-mask-composite: destination-out;
+      pointer-events: none;
     }
     .project-card:active {
       cursor: grabbing;
@@ -157,8 +303,14 @@
     .project-card:hover {
       box-shadow: 0 30px 45px rgba(0,255,231,0.35);
     }
+    .project-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      min-height: 100%;
+    }
     .project-info h3 {
-      margin: 0 0 0.75rem;
+      margin: 0;
       font-weight: 600;
       font-size: 1.6rem;
       user-select: none;
@@ -167,19 +319,108 @@
       font-weight: 300;
       font-size: 1.1rem;
       line-height: 1.5;
-      color: #a0a0a0;
+      color: #b6c6df;
       user-select: none;
     }
     .project-info a.button {
-      margin-top: 1.5rem;
+      margin-top: auto;
       align-self: flex-start;
-      padding: 0.5rem 1.25rem;
+      padding: 0.6rem 1.5rem;
       border: 2px solid #00ffe7;
-      border-radius: 8px;
+      border-radius: 10px;
       font-weight: 600;
       transition: background-color 0.3s ease, color 0.3s ease;
     }
     .project-info a.button:hover {
+      background-color: #00ffe7;
+      color: #0f1624;
+    }
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 0.9rem;
+    }
+    .tech-tag {
+      --tech-color: #00ffe7;
+      position: relative;
+      padding: 0.35rem 1rem 0.35rem 2rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.2);
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #f0f4ff;
+      background: rgba(255,255,255,0.04);
+      transition: border-color 0.3s ease, background 0.3s ease;
+    }
+    .tech-tag::before {
+      content: "";
+      position: absolute;
+      left: 0.6rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--tech-color, #00ffe7);
+      box-shadow: 0 0 12px rgba(0,255,231,0.8);
+    }
+    .project-card:hover .tech-tag {
+      border-color: var(--tech-color, #00ffe7);
+      background: rgba(0,255,231,0.1);
+    }
+    .tech-tag.tech-js { --tech-color: #f7df1e; }
+    .tech-tag.tech-html { --tech-color: #e34f26; }
+    .tech-tag.tech-rest { --tech-color: #1abc9c; }
+    .tech-tag.tech-ts { --tech-color: #3178c6; }
+    .tech-tag.tech-api { --tech-color: #00b3a1; }
+    .tech-tag.tech-viz { --tech-color: #a855f7; }
+    .tech-tag.tech-modeling { --tech-color: #fb923c; }
+    .tech-tag.tech-motion { --tech-color: #14b8a6; }
+    .tech-tag.tech-responsive { --tech-color: #4ade80; }
+    .tech-tag.tech-canvas { --tech-color: #f472b6; }
+    .tech-tag.tech-animation { --tech-color: #fb7185; }
+    .tech-tag.tech-realtime { --tech-color: #38bdf8; }
+    .tech-tag.tech-parsing { --tech-color: #a78bfa; }
+    .tech-tag.tech-automation { --tech-color: #06b6d4; }
+
+    /* Contact panel */
+    .contact-card {
+      background: rgba(7, 10, 22, 0.85);
+      border-radius: 28px;
+      padding: 2.75rem 2.5rem;
+      margin: 0 auto;
+      max-width: 720px;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.45);
+      border: 1px solid rgba(0,255,231,0.3);
+    }
+    .contact-card h2 {
+      margin-top: 0;
+      font-weight: 600;
+      font-size: 2.1rem;
+      letter-spacing: 1px;
+    }
+    .contact-card p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #cfd7e7;
+      margin-bottom: 1.2rem;
+    }
+    .discord-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.7rem 1.35rem;
+      border-radius: 999px;
+      border: 2px solid #00ffe7;
+      font-weight: 600;
+      color: #00ffe7;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .discord-link:hover {
       background-color: #00ffe7;
       color: #0f1624;
     }
@@ -208,33 +449,42 @@
     .fade-in.delay-5 { animation-delay: 1.5s; }
     .fade-in.delay-6 { animation-delay: 1.8s; }
     .fade-in.delay-7 { animation-delay: 2.1s; }
+    .fade-in.delay-8 { animation-delay: 2.4s; }
 
     @keyframes fadeInUp {
       to { opacity: 1; transform: translateY(0); }
     }
 
     /* Responsive typography */
+    @media (max-width: 960px) {
+      header {
+        padding: 1rem 2rem;
+      }
+      nav ul {
+        gap: 1rem;
+      }
+    }
+    @media (max-width: 1100px) {
+      .projects {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 768px) {
+      .projects {
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      }
+    }
     @media (max-width: 600px) {
       .hero h1 { font-size: 2.5rem; }
-      nav ul { gap: 1.2rem; }
-    }
-
-    /* Custom cursor */
-    #cursor {
-      position: fixed;
-      top: 0; left: 0;
-      width: 24px; height: 24px;
-      background-color: rgba(0,255,231,0.7);
-      border-radius: 50%;
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      transition: width 0.2s ease, height 0.2s ease, background-color 0.3s ease;
-      z-index: 10000;
-      mix-blend-mode: difference;
-    }
-    #cursor.hovered {
-      width: 48px; height: 48px;
-      background-color: rgba(0,255,231,0.9);
+      nav ul {
+        gap: 1.2rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .projects-section::before,
+      .projects-panel::after {
+        display: none;
+      }
     }
 
     /* Toggle button */
@@ -277,62 +527,127 @@
     <section class="hero fade-in">
       <h1>Hello, I'm HB Statistics</h1>
       <p>Welcome to my ultra-modern portfolio showcasing the best projects and creations powered by passion, code, and creativity.</p>
+      <div class="hero-badge">
+        <span>Data-Driven</span>
+        <span>&nbsp;â€¢&nbsp;</span>
+        <span>Immersive</span>
+        <span>&nbsp;â€¢&nbsp;</span>
+        <span>Live Ready</span>
+      </div>
     </section>
 
-    <section id="projects" class="projects">
-      <div class="project-card fade-in delay-1" tabindex="0">
-        <div class="project-info">
-          <h3>Social Media Stats</h3>
-          <p>The Official Website For Social Media Stats. A Website That Shows Statistics Across Social Media.</p>
-          <a href="https://hbstatistics.github.io/Social-Media-Stats/" class="button" target="_blank" rel="noopener">View Project</a>
+    <section id="projects" class="projects-section fade-in">
+      <div class="projects-panel">
+        <div class="section-heading">
+          <p class="section-kicker">Refined builds</p>
+          <h2>Projects</h2>
+          <p>Every release mixes clean stats, realtime APIs, and immersive interaction.</p>
         </div>
-      </div>
+        <div class="projects">
+          <div class="project-card fade-in delay-1" tabindex="0">
+            <div class="project-info">
+              <h3>Social Media Stats</h3>
+              <p>The Official Website For Social Media Stats. A Website That Shows Statistics Across Social Media.</p>
+              <div class="tech-tags">
+                <span class="tech-tag tech-js">JavaScript</span>
+                <span class="tech-tag tech-html">HTML/CSS</span>
+                <span class="tech-tag tech-rest">REST APIs</span>
+              </div>
+              <a href="https://hbstatistics.github.io/Social-Media-Stats/" class="button" target="_blank" rel="noopener">View Project</a>
+            </div>
+          </div>
 
-      <div class="project-card fade-in delay-2" tabindex="0">
-        <div class="project-info">
-          <h3>Top 50 Fastest Growing Channels</h3>
-          <p>Shows the Top 50 Fastest Growing YouTube Channels In Real Time Using Mixerno.Space and YouTube API.</p>
-          <a href="https://hbstatistics.github.io/Top-50-Fastest-Growing-Channels/" class="button" target="_blank" rel="noopener">View Project</a>
-        </div>
-      </div>
+          <div class="project-card fade-in delay-2" tabindex="0">
+            <div class="project-info">
+              <h3>Top 50 Fastest Growing Channels</h3>
+              <p>Shows the Top 50 Fastest Growing YouTube Channels In Real Time Using Mixerno.Space and YouTube API.</p>
+              <div class="tech-tags">
+                <span class="tech-tag tech-ts">TypeScript</span>
+                <span class="tech-tag tech-api">YouTube API</span>
+                <span class="tech-tag tech-viz">Data Viz</span>
+              </div>
+              <a href="https://hbstatistics.github.io/Top-50-Fastest-Growing-Channels/" class="button" target="_blank" rel="noopener">View Project</a>
+            </div>
+          </div>
 
-      <div class="project-card fade-in delay-3" tabindex="0">
-        <div class="project-info">
-          <h3>Auto Subscriber Estimator</h3>
-          <p>A website that auto estimates subscriber counts with realistic daily gains.</p>
-          <a href="https://hbstatistics.github.io/Auto-Subscriber-Estimator/" class="button" target="_blank" rel="noopener">View Project</a>
-        </div>
-      </div>
+          <div class="project-card fade-in delay-3" tabindex="0">
+            <div class="project-info">
+              <h3>Auto Subscriber Estimator</h3>
+              <p>A website that auto estimates subscriber counts with realistic daily gains.</p>
+              <div class="tech-tags">
+                <span class="tech-tag tech-js">JavaScript</span>
+                <span class="tech-tag tech-modeling">Modeling</span>
+                <span class="tech-tag tech-motion">CSS Motion</span>
+              </div>
+              <a href="https://hbstatistics.github.io/Auto-Subscriber-Estimator/" class="button" target="_blank" rel="noopener">View Project</a>
+            </div>
+          </div>
 
-      <div class="project-card fade-in delay-4" tabindex="0">
-        <div class="project-info">
-          <h3>mrbeast-lastest</h3>
-          <p>A website that shows MrBeast's latest video stats.</p>
-          <a href="https://hbstatistics.github.io/mrbeast-lastest/" class="button" target="_blank" rel="noopener">View Project</a>
-        </div>
-      </div>
+          <div class="project-card fade-in delay-4" tabindex="0">
+            <div class="project-info">
+              <h3>mrbeast-lastest</h3>
+              <p>A website that shows MrBeast's latest video stats.</p>
+              <div class="tech-tags">
+                <span class="tech-tag tech-js">JavaScript</span>
+                <span class="tech-tag tech-api">API Polling</span>
+                <span class="tech-tag tech-responsive">Responsive</span>
+              </div>
+              <a href="https://hbstatistics.github.io/mrbeast-lastest/" class="button" target="_blank" rel="noopener">View Project</a>
+            </div>
+          </div>
 
-      <div class="project-card fade-in delay-5" tabindex="0">
-        <div class="project-info">
-          <h3>custom-clock</h3>
-          <p>A clock with an odometer.</p>
-          <a href="https://hbstatistics.github.io/custom-clock/" class="button" target="_blank" rel="noopener">View Project</a>
-        </div>
-      </div>
+          <div class="project-card fade-in delay-5" tabindex="0">
+            <div class="project-info">
+              <h3>custom-clock</h3>
+              <p>A clock with an odometer.</p>
+              <div class="tech-tags">
+                <span class="tech-tag tech-js">JavaScript</span>
+                <span class="tech-tag tech-canvas">Canvas</span>
+                <span class="tech-tag tech-animation">Animation</span>
+              </div>
+              <a href="https://hbstatistics.github.io/custom-clock/" class="button" target="_blank" rel="noopener">View Project</a>
+            </div>
+          </div>
 
-      <div class="project-card fade-in delay-6" tabindex="0">
-        <div class="project-info">
-          <h3>YouTube Subscriber Battle Tracker</h3>
-          <p>A website that shows upcoming subscriber battles on YouTube’s top 1,000 channels.</p>
-          <a href="https://hbstatistics.github.io/YouTube-Subscriber-Battle-Tracker/" class="button" target="_blank" rel="noopener">View Project</a>
-        </div>
-      </div>
+          <div class="project-card fade-in delay-6" tabindex="0">
+            <div class="project-info">
+              <h3>YouTube Subscriber Battle Tracker</h3>
+              <p>A website that shows upcoming subscriber battles on YouTube's top 1,000 channels.</p>
+              <div class="tech-tags">
+                <span class="tech-tag tech-ts">TypeScript</span>
+                <span class="tech-tag tech-realtime">Realtime</span>
+                <span class="tech-tag tech-api">APIs</span>
+              </div>
+              <a href="https://hbstatistics.github.io/YouTube-Subscriber-Battle-Tracker/" class="button" target="_blank" rel="noopener">View Project</a>
+            </div>
+          </div>
 
-      <div class="project-card fade-in delay-7" tabindex="0">
-        <div class="project-info">
-          <h3>Social Blade Daily Data Collector</h3>
-          <p>A lightweight tool by HB Statistics to convert Social Blade Daily Data source code into clean, exportable subscriber data.</p>
-          <a href="https://hbstatistics.github.io/HB-Social-Blade-Daily-Data-Collector/" class="button" target="_blank" rel="noopener">View Project</a>
+          <div class="project-card fade-in delay-7" tabindex="0">
+            <div class="project-info">
+              <h3>Social Blade Daily Data Collector</h3>
+              <p>A lightweight tool by HB Statistics to convert Social Blade Daily Data source code into clean, exportable subscriber data.</p>
+              <div class="tech-tags">
+                <span class="tech-tag tech-js">JavaScript</span>
+                <span class="tech-tag tech-parsing">Data Parsing</span>
+                <span class="tech-tag tech-automation">Automation</span>
+              </div>
+              <a href="https://hbstatistics.github.io/HB-Social-Blade-Daily-Data-Collector/" class="button" target="_blank" rel="noopener">View Project</a>
+            </div>
+          </div>
+
+          <div class="project-card fade-in delay-8" tabindex="0">
+            <div class="project-info">
+              <h3>HB-SubTracker</h3>
+              <p>Discord bot that tracks configured YouTube channels, detects milestones like every 1,000 subs, and posts rich alerts with pace, before/after counts, and the exact UTC hit time.</p>
+              <div class="tech-tags">
+                <span class="tech-tag tech-js">JavaScript</span>
+                <span class="tech-tag tech-api">Discord.js</span>
+                <span class="tech-tag tech-realtime">Realtime</span>
+              </div>
+              <a href="https://github.com/HBStatistics/HB-SubTracker" class="button" target="_blank" rel="noopener">View Project</a>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
@@ -344,19 +659,23 @@
       </p>
     </section>
 
-    <section id="contact" class="fade-in" style="margin-top: 6rem; max-width: 700px; margin-left:auto; margin-right:auto; text-align:center;">
-      <h2>Contact</h2>
-      <p>
-        If you are interested in contacting me DM me on Twitter/X <a href="https://x.com/Herobrine_Y_T" target="_blank" rel="noopener">https://x.com/Herobrine_Y_T</a>.
-      </p>
+    <section id="contact" class="fade-in" style="margin-top: 6rem;">
+      <div class="contact-card">
+        <h2>Contact</h2>
+        <p>
+          If you want to reach out about a project or collaboration, DM me on Twitter/X <a href="https://x.com/HBStatistics" target="_blank" rel="noopener">https://x.com/HBStatistics</a>.
+        </p>
+        <p>
+          For live chats, project updates, and hangouts drop into my Discord community.
+        </p>
+        <a class="discord-link" href="https://discord.gg/PcYqgvp2" target="_blank" rel="noopener">Join my Discord server</a>
+      </div>
     </section>
   </main>
 
   <footer>
-    &copy; 2025 HB Statistics — Crafted with passion and code.
+    &copy; HB Statistics 2026.
   </footer>
-
-  <div id="cursor"></div>
 
   <script>
     // Smooth scroll for nav links
@@ -391,17 +710,6 @@
 
     // Load saved theme
     setTheme(localStorage.getItem('theme') || 'dark');
-
-    // Custom cursor
-    const cursor = document.getElementById('cursor');
-    document.addEventListener('mousemove', e => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top = e.clientY + 'px';
-    });
-    document.querySelectorAll('a, button').forEach(el => {
-      el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
-      el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
-    });
 
     // 3D Tilt effect on cards
     document.querySelectorAll('.project-card').forEach(card => {
@@ -470,3 +778,4 @@
 
 </body>
 </html>
+
